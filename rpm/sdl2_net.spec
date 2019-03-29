@@ -1,7 +1,7 @@
 Summary: Simple DirectMedia Layer - Portable Network Library
 Name: SDL2_net
-Version: 2.0.0
-Release: 3
+Version: 2.0.1
+Release: 1
 Source: http://www.libsdl.org/projects/%{name}/release/%{name}-%{version}.tar.gz
 URL: http://www.libsdl.org/projects/SDL_net/
 License: zlib
@@ -25,7 +25,7 @@ This is the libraries and include files you can use to
 develop SDL networked applications.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}/%{name}
 
 %build
 ./autogen.sh
