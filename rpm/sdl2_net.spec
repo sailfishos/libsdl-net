@@ -1,10 +1,11 @@
 Summary: Simple DirectMedia Layer - Portable Network Library
 Name: SDL2_net
-Version: 2.0.1
+Version: 2.2.0
 Release: 1
 Source: %{name}-%{version}.tar.gz
-URL: http://www.libsdl.org/projects/SDL_net/
+URL: https://github.com/libsdl-org/SDL_net
 License: zlib
+BuildRequires: cmake
 BuildRequires: pkgconfig(sdl2)
 BuildRequires: autoconf
 BuildRequires: automake
@@ -23,15 +24,21 @@ This is the libraries and include files you can use to
 develop SDL networked applications.
 
 %prep
-%setup -q -n %{name}-%{version}/%{name}
+%autosetup -p1 -n %{name}-%{version}/%{name}
 
 %build
-./autogen.sh
-%configure
+mkdir -p build
+pushd build
+%cmake .. \
+  -DCMAKE_BUILD_TYPE=Release
 %make_build
+popd
 
 %install
+pushd build
 %make_install
+rm -f %{buildroot}%{_datadir}/licenses/%{name}/LICENSE.txt
+popd
 
 %post
 /sbin/ldconfig
@@ -41,7 +48,7 @@ develop SDL networked applications.
 
 %files
 %defattr(-,root,root)
-%license COPYING.txt
+%license LICENSE.txt
 %{_libdir}/lib*.so.*
 
 %files devel
@@ -49,5 +56,6 @@ develop SDL networked applications.
 %doc README.txt CHANGES.txt
 %{_libdir}/lib*.so
 %{_includedir}/*/*.h
+%{_libdir}/cmake/%{name}/*.cmake
 %{_libdir}/pkgconfig/*
 
